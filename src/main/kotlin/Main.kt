@@ -14,40 +14,38 @@ open class ArmaDeFuego(nombre: String, municion:Int, municionARestar:Int, tipoDe
     init { require(radio.lowercase() == "pequeño" || radio.lowercase() == "amplio"){"La variable radio solo puede ser \"Pequeño\" o \"Amplio\""} }
 
     override fun toString(): String {
-        return "Esta $nombre tiene $municion de municion, $municionARestar de municion a restar,$tipoDeMunicion es su tipo de munición,$danio de daño y tiene un alcance  $radio"
+        return "Esta $nombre tiene $municion de municion, $municionARestar de municion a restar, ${tipoDeMunicion.lowercase()} es su tipo de munición, $danio de daño y tiene un alcance ${radio.lowercase()}"
     }
 
     fun dispara(){municionARestar++}
     fun recarga(municion: Int) {this.municion = municion}
 
-    class Pistola(nombre: String,municion:Int,municionARestar:Int,tipoDeMunicion:String, danio:Int,radio:String): ArmaDeFuego (nombre,municion,municionARestar,tipoDeMunicion,danio, radio)
+    class Pistola(nombre: String,municion:Int,municionARestar:Int,tipoDeMunicion:String, danio:Int,radio:String): ArmaDeFuego (nombre,municion,municionARestar * 1,tipoDeMunicion,danio, radio)
     {
-        private var municionARestar = municionARestar * 1
+
     }
-    class Rifle(nombre: String,municion:Int,municionARestar:Int,tipoDeMunicion:String, danio:Int,radio:String): ArmaDeFuego (nombre,municion,municionARestar,tipoDeMunicion,danio, radio)
+    class Rifle(nombre: String,municion:Int,municionARestar:Int,tipoDeMunicion:String, danio:Int,radio:String): ArmaDeFuego (nombre,municion,municionARestar * 2,tipoDeMunicion,danio, radio)
     {
-        private var municionARestar = municionARestar * 2
+
     }
-    class Bazooka(nombre: String,municion:Int,municionARestar:Int,tipoDeMunicion:String, danio:Int,radio:String): ArmaDeFuego (nombre,municion,municionARestar,tipoDeMunicion,danio, radio)
+    class Bazooka(nombre: String,municion:Int,municionARestar:Int,tipoDeMunicion:String, danio:Int,radio:String): ArmaDeFuego (nombre,municion,municionARestar * 3,tipoDeMunicion,danio, radio)
     {
-        private var municionARestar = municionARestar * 3
     }
 
 }
 
 fun main() {
 
-    val Thompson = ArmaDeFuego("Thompson",25,1,"Pistola",5,"Pequeño")
-    val Bolt = ArmaDeFuego("Bolt",5,1,"Ligera",60,"Amplio")
-    val Colt45 = ArmaDeFuego("Colt45",13,1,"Pistola",8,"Pequeño")
+    val Thompson = ArmaDeFuego.Pistola("Thompson",25,1,"Pistola",5,"Pequeño")
+    val Bolt = ArmaDeFuego.Rifle("Bolt",5,1,"Ligera",60,"Amplio")
+    val Colt45 = ArmaDeFuego.Bazooka("Colt45",13,1,"Pistola",8,"Pequeño")
 
     val listaArmas = mutableMapOf<Int,ArmaDeFuego>()
 
-    repeat(6){
-        var contador = Random.nextInt(1,3)
-        var i = 0
+    var i = 0
+    while(i != 6){
 
-        when (contador){
+        when (Random.nextInt(1,3)){
             1 -> listaArmas[i] = Thompson
             2 -> listaArmas[i] = Bolt
             3 -> listaArmas[i] = Colt45
@@ -56,7 +54,7 @@ fun main() {
         i++
     }
 
-    for (i in 0 until listaArmas.size){listaArmas[i]?.dispara();println(listaArmas[i])}
+    for (i in 0 until 6){listaArmas[i]?.dispara();println(listaArmas[i])}
 
 
 

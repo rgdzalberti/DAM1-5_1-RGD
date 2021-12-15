@@ -3,10 +3,10 @@ import kotlin.random.Random
 open class ArmaDeFuego(nombre: String, municion:Int, municionARestar:Int, tipoDeMunicion:String, danio:Int, radio:String){
 
     private val nombre = nombre
-    private var municion = municion
+    protected var municion = municion
         set (value) = if (value>0) {field = value} else throw IllegalArgumentException("El valor no puede ser menor de 0")
-    private var municionARestar = municionARestar
-        set (value) = if (value>0) {field = value} else throw IllegalArgumentException("El valor no puede ser menor de 0")
+    protected var municionARestar = municionARestar
+        set (value) = if (value>=0) {field = value} else throw IllegalArgumentException("El valor no puede ser menor de 0")
     private val tipoDeMunicion = tipoDeMunicion
     private var danio = danio
     private val radio = radio
@@ -14,50 +14,43 @@ open class ArmaDeFuego(nombre: String, municion:Int, municionARestar:Int, tipoDe
     init { require(radio.lowercase() == "pequeño" || radio.lowercase() == "amplio"){"La variable radio solo puede ser \"Pequeño\" o \"Amplio\""} }
 
     override fun toString(): String {
-        return "Esta $nombre tiene $municion de municion, $municionARestar de municion a restar, ${tipoDeMunicion.lowercase()} es su tipo de munición, $danio de daño y tiene un alcance ${radio.lowercase()}"
+        return "Esta $nombre tiene $municion de municion, $municionARestar de municion restada, ${tipoDeMunicion.lowercase()} es su tipo de munición, $danio de daño y tiene un alcance ${radio.lowercase()}"
     }
 
-    fun dispara(){municionARestar++}
-    fun recarga(municion: Int) {this.municion = municion}
+    open fun dispara(disparos: Int){municionARestar += disparos; municion -= municionARestar; municionARestar = 0;}
+    fun recarga(municion: Int) {this.municion += municion}
 
-    class Pistola(nombre: String,municion:Int,municionARestar:Int,tipoDeMunicion:String, danio:Int,radio:String): ArmaDeFuego (nombre,municion,municionARestar * 1,tipoDeMunicion,danio, radio)
+    class Pistola(nombre: String,municion:Int,municionARestar:Int,tipoDeMunicion:String, danio:Int,radio:String): ArmaDeFuego (nombre,municion,municionARestar,tipoDeMunicion,danio, radio)
     {
-
+        override fun dispara(disparos: Int){municionARestar = 0; municionARestar += disparos * 1; municion -= municionARestar}
     }
-    class Rifle(nombre: String,municion:Int,municionARestar:Int,tipoDeMunicion:String, danio:Int,radio:String): ArmaDeFuego (nombre,municion,municionARestar * 2,tipoDeMunicion,danio, radio)
+    class Rifle(nombre: String,municion:Int,municionARestar:Int,tipoDeMunicion:String, danio:Int,radio:String): ArmaDeFuego (nombre,municion,municionARestar,tipoDeMunicion,danio, radio)
     {
-
+        override fun dispara(disparos: Int){municionARestar = 0;municionARestar += disparos * 2; municion -= municionARestar}
     }
-    class Bazooka(nombre: String,municion:Int,municionARestar:Int,tipoDeMunicion:String, danio:Int,radio:String): ArmaDeFuego (nombre,municion,municionARestar * 3,tipoDeMunicion,danio, radio)
+    class Bazooka(nombre: String,municion:Int,municionARestar:Int,tipoDeMunicion:String, danio:Int,radio:String): ArmaDeFuego (nombre,municion,municionARestar,tipoDeMunicion,danio, radio)
     {
+        override fun dispara(disparos: Int){municionARestar = 0;municionARestar += disparos * 3; municion -= municionARestar}
     }
 
 }
 
 fun main() {
 
-    val Thompson = ArmaDeFuego.Pistola("Thompson",25,1,"Pistola",5,"Pequeño")
-    val Bolt = ArmaDeFuego.Rifle("Bolt",5,1,"Ligera",60,"Amplio")
-    val Colt45 = ArmaDeFuego.Bazooka("Colt45",13,1,"Pistola",8,"Pequeño")
+    val Thompson = ArmaDeFuego.Pistola("Thompson",25,0,"Pistola",5,"Pequeño")
+    val Bolt = ArmaDeFuego.Rifle("Bolt",15,0,"Ligera",60,"Amplio")
+    val Colt45 = ArmaDeFuego.Bazooka("Colt45",13,0,"Pistola",8,"Pequeño")
 
     val listaArmas = mutableMapOf<Int,ArmaDeFuego>()
 
     var i = 0
     while(i != 6){
-
-        when (Random.nextInt(1,3)){
+        when (Random.nextInt(1,4)){
             1 -> listaArmas[i] = Thompson
             2 -> listaArmas[i] = Bolt
             3 -> listaArmas[i] = Colt45
         }
-
         i++
     }
-
-    for (i in 0 until 6){listaArmas[i]?.dispara();println(listaArmas[i])}
-
-
-
-
-
+    for (i in 0 until 6){listaArmas[i]?.dispara(1);println(listaArmas[i])}
 }

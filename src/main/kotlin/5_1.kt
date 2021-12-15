@@ -21,26 +21,26 @@ import kotlin.random.Random
     open fun dispara(disparos: Int){municionARestar += disparos; municion -= municionARestar; municionARestar = 0;}
     fun recarga(municion: Int) {this.municion += municion}
 
-    class Pistola(nombre: String,municion:Int,municionARestar:Int,tipoDeMunicion:String, danio:Int,radio:String): ArmaDeFuego (nombre,municion,municionARestar,tipoDeMunicion,danio, radio)
-    {
-        override fun dispara(disparos: Int){municionARestar = 0; municionARestar += disparos * 1; municion -= municionARestar}
-    }
-    class Rifle(nombre: String,municion:Int,municionARestar:Int,tipoDeMunicion:String, danio:Int,radio:String): ArmaDeFuego (nombre,municion,municionARestar,tipoDeMunicion,danio, radio)
-    {
-        override fun dispara(disparos: Int){municionARestar = 0;municionARestar += disparos * 2; municion -= municionARestar}
-    }
-    class Bazooka(nombre: String,municion:Int,municionARestar:Int,tipoDeMunicion:String, danio:Int,radio:String): ArmaDeFuego (nombre,municion,municionARestar,tipoDeMunicion,danio, radio)
-    {
-        override fun dispara(disparos: Int){municionARestar = 0;municionARestar += disparos * 3; municion -= municionARestar}
-    }
+}
 
+class Pistola(nombre: String,municion:Int,municionARestar:Int,tipoDeMunicion:String, danio:Int,radio:String): ArmaDeFuego (nombre,municion,municionARestar,tipoDeMunicion,danio, radio)
+{
+    override fun dispara(disparos: Int){municionARestar = 0; municionARestar += disparos * 1; municion -= municionARestar}
+}
+class Rifle(nombre: String,municion:Int,municionARestar:Int,tipoDeMunicion:String, danio:Int,radio:String): ArmaDeFuego (nombre,municion,municionARestar,tipoDeMunicion,danio, radio)
+{
+    override fun dispara(disparos: Int){municionARestar = 0;municionARestar += disparos * 2; municion -= municionARestar}
+}
+class Bazooka(nombre: String,municion:Int,municionARestar:Int,tipoDeMunicion:String, danio:Int,radio:String): ArmaDeFuego (nombre,municion,municionARestar,tipoDeMunicion,danio, radio)
+{
+    override fun dispara(disparos: Int){municionARestar = 0;municionARestar += disparos * 3; municion -= municionARestar}
 }
 
 fun main() {
 
-    val Thompson = ArmaDeFuego.Pistola("Thompson",25,0,"Pistola",5,"Pequeño")
-    val Bolt = ArmaDeFuego.Rifle("Bolt",15,0,"Ligera",60,"Amplio")
-    val Colt45 = ArmaDeFuego.Bazooka("Colt45",13,0,"Pistola",8,"Pequeño")
+    val Thompson = Pistola("Thompson",25,0,"Pistola",5,"Pequeño")
+    val Bolt = Rifle("Bolt",15,0,"Ligera",60,"Amplio")
+    val Colt45 = Bazooka("Colt45",13,0,"Pistola",8,"Pequeño")
 
     val listaArmas = mutableMapOf<Int,ArmaDeFuego>()
 

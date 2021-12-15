@@ -1,6 +1,7 @@
+package noInterface
 import kotlin.random.Random
 
-open class ArmaDeFuego(nombre: String, municion:Int, municionARestar:Int, tipoDeMunicion:String, danio:Int, radio:String){
+ open class ArmaDeFuego(nombre: String, municion:Int, municionARestar:Int, tipoDeMunicion:String, danio:Int, radio:String){
 
     private val nombre = nombre
     protected var municion = municion
